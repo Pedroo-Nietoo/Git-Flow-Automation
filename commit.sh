@@ -36,7 +36,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             clear
             gum log --level info "Feature criada com sucesso!"
             gum style \
-                --foreground "default" --align left --margin "0" --padding "0" "Branch atual: " --foreground "#45e4d7" $SCOPE
+                --foreground "default" --align left --margin "0" --padding "0" "Branch atual: " $SCOPE
 
             gum confirm "Deseja adicionar arquivos?" && {
             gum spin --spinner dot --title "Adicionando arquivos..." -- sh -c `clear && git add . && git status`
