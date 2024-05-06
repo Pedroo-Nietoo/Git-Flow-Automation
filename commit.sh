@@ -33,9 +33,9 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
         echo "\nDigite o tempo que sua tarefa levou:"
         TASK_TIME=$(gum input --placeholder "Ex: 1h 30m")
 
-        COMMIT=$(git commit -m "$SCOPE: #$JIRA_TASK_ID #$TASK_COMMENT #$TASK_TIME")
+        git commit -m "$SCOPE: #$JIRA_TASK_ID #$TASK_COMMENT #$TASK_TIME"
 
-        echo $COMMIT
+        echo $COMMIT > a.txt
     else
         clear
         gum log --level error "Erro ao atualizar a branch 'develop':"
