@@ -42,6 +42,8 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             gum confirm "Deseja adicionar arquivos?" && {
             gum spin --spinner dot --title "Adicionando arquivos..." -- sh -c `clear && git add . && git status`
 
+            echo "\n"
+
             echo "Digite o ID de sua tarefa no Jira:"
             JIRA_TASK_ID=$(gum input --placeholder "Ex: ER3S-1234")
 
