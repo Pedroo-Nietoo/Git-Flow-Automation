@@ -20,7 +20,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
 
     if [ "$FEATURE_OPTION" = "Iniciar Feature" ]; then
         clear
-        
+
         gum spin --spinner dot --title "Baixando atualizações da 'develop'..." -- sh -c 'git checkout develop && git pull'
         exit_code=$?
 
@@ -91,12 +91,13 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
 
 
     elif [ "$FEATURE_OPTION" = "Finalizar Feature" ]; then
+        clear
         gum spin --spinner dot --title "Baixando atualizações da 'develop'..." -- sh -c 'git pull origin develop'
         exit_code=$?
 
         if [ $exit_code -eq 0 ]; then
             gum log --level info "Branch 'develop' atualizada."
-            gum confirm "Desja finalizar a Feature $SCOPE?" && git flow feature finish $SCOPE && git push || gum log --level warn "Feature não finalizada."
+            gum confirm "Desja finalizar a Feature?" && git flow feature finish $SCOPE && git push || gum log --level warn "Feature não finalizada."
         else
             gum log --level error "Erro ao puxar atualizações da 'develop':"
         fi
