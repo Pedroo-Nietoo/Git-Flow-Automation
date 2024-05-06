@@ -72,7 +72,12 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
         fi
 
     elif [ "$FEATURE_OPTION" = "Selecionar Feature" ]; then
-        gum spin --spinner dot --title "Selecionando a Feature..." -- sh -c `git flow feature track $SCOPE`
+        clear
+
+        echo "Digite o nome da branch da feature que deseja selecionar:"
+        BRANCH_NAME=$(gum input --placeholder "Ex: ER3S-1234-atendimento")
+        
+        gum spin --spinner dot --title "Selecionando a Feature..." -- sh -c `git flow feature track $BRANCH_NAME`
         exit_code=$?
 
         if [ $exit_code -eq 0 ]; then
