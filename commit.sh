@@ -32,8 +32,10 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             SCOPE=$(gum input --placeholder "Ex: ER3S-1234-atendimento")
 
             gum spin --spinner dot --title "Criando Feature..." -- sh -c `git flow feature start $SCOPE`
-            echo "\n"
-            gum log --level info "Feature criada com sucesso: " $SCOPE
+            
+            clear
+            gum log --level info "Feature criada com sucesso!"
+            echo "Branch atual: $SCOPE"
 
             gum confirm "Deseja adicionar arquivos?" && {
             gum spin --spinner dot --title "Adicionando arquivos..." -- sh -c `clear && git add . && git status`
