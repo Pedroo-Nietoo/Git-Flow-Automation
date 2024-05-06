@@ -57,7 +57,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             clear
             gum spin --spinner dot --title "Commitando arquivos..." -- sh -c `git commit -m "$JIRA_TASK_ID: #$TASK_COMMENT #$TASK_TIME"`
 
-            gum log --time timeonly --level info "Arquivos commitados na feature $SCOPE com sucesso."
+            gum log --time datetime --level info "Arquivos commitados na feature $SCOPE com sucesso."
             } || gum log --time timeonly --level warn "Arquivos não commitados."
         else
             clear
@@ -69,7 +69,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
         exit_code=$?
 
         if [ $exit_code -eq 0 ]; then
-            gum log --time datetime --type info "Feature publicada com sucesso."
+            gum log --time timeonly --type info "Feature publicada com sucesso."
         else
             gum log --time timeonly --level error "Erro ao publicar a Feature:"
         fi
