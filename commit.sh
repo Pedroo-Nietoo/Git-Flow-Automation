@@ -26,7 +26,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
 
         if [ $exit_code -eq 0 ]; then
             clear
-            gum log --level info "Branch 'develop' atualizada."
+            gum log --level info "Atualizações da 'develop' aplicadas."
 
             echo "\nDigite o ID da tarefa do Jira + Módulo:"
 
@@ -61,7 +61,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             } || gum log --level warn "Arquivos não commitados."
         else
             clear
-            gum log --level error "Erro ao atualizar a branch 'develop':"
+            gum log --level error "Erro ao puxar atualizações da 'develop':"
         fi
 
     elif [ "$FEATURE_OPTION" = "Publicar Feature" ]; then
@@ -96,14 +96,14 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
         exit_code=$?
 
         if [ $exit_code -eq 0 ]; then
-            gum log --level info "Branch 'develop' atualizada."
+            gum log --level info "Atualizações da 'develop' aplicadas."
             gum confirm "Desja finalizar a Feature?" && git flow feature finish $SCOPE && git push || gum log --level warn "Feature não finalizada."
         else
             gum log --level error "Erro ao puxar atualizações da 'develop':"
         fi
     else
         clear
-        gum log --level error "Erro ao atualizar a branch 'develop':"
+        gum log --level error "Erro ao puxar atualizações da 'develop':"
     fi
 
 elif [ "$COMMIT_TYPE" = "Hotfix" ]; then
