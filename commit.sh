@@ -33,7 +33,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
         echo "\nDigite o tempo que sua tarefa levou:"
         TASK_TIME=$(gum input --placeholder "Ex: 1h 30m")
 
-        git commit -m "$SCOPE: #$JIRA_TASK_ID #$TASK_COMMENT #$TASK_TIME"
+        git commit -m "$JIRA_TASK_ID: #$TASK_COMMENT #$TASK_TIME"
 
         clear
 
