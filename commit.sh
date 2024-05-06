@@ -46,7 +46,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
 
             git commit -m "$JIRA_TASK_ID: #$TASK_COMMENT #$TASK_TIME"
 
-            clear
+            gum log --level info "Feature criada com sucesso" name $SCOPE
         else
             clear
             gum log --level error "Erro ao atualizar a branch 'develop':"
