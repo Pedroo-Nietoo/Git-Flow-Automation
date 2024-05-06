@@ -13,18 +13,20 @@ COMMIT_TYPE=$(gum choose "Feature" "Hotfix" "Bugfix")
 
 if [ "$COMMIT_TYPE" = "Feature" ]; then
     clear
-    # gum spin --spinner dot --title "Pulling updates from develop..." -- sh -c 'git checkout develop && git pull'
+    gum spin --spinner dot --title "Pulling updates from 'develop'..." -- sh -c 'git checkout develop && git pull'
+    exit_code=$?
 
-    if git checkout develop && git pull; then
+    if [ $exit_code -eq 0 ]; then
         clear
         gum log --level info "Branch 'develop' atualizada."
+        echo "\nDigite o ID da tarefa do Jira + Módulo:"
+        SCOPE=$(gum input --placeholder "Ex: ER3S-1234-atendimento")
+        #todo add criação da feature (git flow feature start $SCOPE)
+        gum confirm "Deseja adicionar arquivos?" && git add . && git status || gum log --level info "Nenhum arquivo adicionado."
     else
-        gum log --level error "Erro ao atualizar a branch 'develop'."
+        clear
+        gum log --level error "Erro ao atualizar a branch 'develop':"
     fi
-    echo "---------------------------------------"
-    echo "Digite o ID da tarefa do Jira + Módulo:"
-    SCOPE=$(gum input --placeholder "Ex: ER3S-1234-atendimento")
-    //todo add criação da feature
 elif [ "$COMMIT_TYPE" = "Hotfix" ]; then
     echo "Hotfix"
 elif [ "$COMMIT_TYPE" = "Bugfix" ]; then
