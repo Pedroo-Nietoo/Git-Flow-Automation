@@ -35,7 +35,8 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             
             clear
             gum log --level info "Feature criada com sucesso!"
-            echo "Branch atual: $SCOPE"
+            gum style \
+                --foreground "#45e4d7" --align left --margin "0" --padding "0" "Branch atual: $SCOPE" 
 
             gum confirm "Deseja adicionar arquivos?" && {
             gum spin --spinner dot --title "Adicionando arquivos..." -- sh -c `clear && git add . && git status`
@@ -43,13 +44,14 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             echo "Digite o ID de sua tarefa no Jira:"
             JIRA_TASK_ID=$(gum input --placeholder "Ex: ER3S-1234")
 
-            echo "\nDigite o comentário de sua tarefa:"
+            echo "\nDigite o comentário de sua tarefa:\n"
             TASK_COMMENT=$(gum write --placeholder "Comentário")
 
             echo "\nDigite o tempo que sua tarefa levou:"
             TASK_TIME=$(gum input --placeholder "Ex: 1h 30m")
-
-            git commit -m "$JIRA_TASK_ID: #$TASK_COMMENT #$TASK_TIME"
+            
+            clear
+            gum spin --spinner dot --title "Commitando arquivos..." -- sh -c `git commit -m "$JIRA_TASK_ID: #$TASK_COMMENT #$TASK_TIME"`
 
             gum log --level info "Arquivos commitados na feature $SCOPE com sucesso."
             } || gum log --level warn "Arquivos não commitados."
