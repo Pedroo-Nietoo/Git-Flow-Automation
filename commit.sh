@@ -19,6 +19,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
     FEATURE_OPTION=$(gum choose "Iniciar Feature" "Publicar Feature" "Selecionar Feature" "Finalizar Feature")
 
     if [ "$FEATURE_OPTION" = "Iniciar Feature" ]; then
+        clear
         
         gum spin --spinner dot --title "Baixando atualizações da 'develop'..." -- sh -c 'git checkout develop && git pull'
         exit_code=$?
