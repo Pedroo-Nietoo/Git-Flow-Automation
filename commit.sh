@@ -34,7 +34,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             gum spin --spinner dot --title "Criando Feature..." -- sh -c `git flow feature start $SCOPE`
             
             clear
-            gum log --level info "Feature criada com sucesso!"
+            gum log --level info "Feature criada com sucesso!\n"
             gum style \
                 --foreground "#45e4d7" --align left --margin "0" --padding "0" "Branch atual: " && git branch | grep "*"
 
