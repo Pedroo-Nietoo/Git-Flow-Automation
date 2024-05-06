@@ -39,6 +39,8 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
 
         echo "Selecione o processo que deseja realizar:"
         gum choose "Publicar Feature" "Selecionar Feature" "Finalizar Feature"
+        gum spin --spinner dot --title "Pulling updates from 'develop'..." -- sh -c 'git checkout develop && git pull'
+        git push
     else
         clear
         gum log --level error "Erro ao atualizar a branch 'develop':"
