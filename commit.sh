@@ -35,7 +35,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             gum spin --spinner dot --title "Criando Feature..." -- sh -c `git flow feature start $SCOPE`
             
             clear
-            gum log --level info "Feature criada com sucesso!"
+            gum log --time timeonly --level info "Feature criada com sucesso!"
             echo "\n"
             gum style \
                 --foreground "#45e4d7" --align left --margin "0" --padding "0" "Branch atual: " && git branch | grep "*"
@@ -57,11 +57,11 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             clear
             gum spin --spinner dot --title "Commitando arquivos..." -- sh -c `git commit -m "$JIRA_TASK_ID: #$TASK_COMMENT #$TASK_TIME"`
 
-            gum log --level info "Arquivos commitados na feature $SCOPE com sucesso."
-            } || gum log --level warn "Arquivos não commitados."
+            gum log --time timeonly --level info "Arquivos commitados na feature $SCOPE com sucesso."
+            } || gum log --time timeonly --level warn "Arquivos não commitados."
         else
             clear
-            gum log --level error "Erro ao puxar atualizações da 'develop':"
+            gum log --time timeonly --level error "Erro ao puxar atualizações da 'develop':"
         fi
 
     elif [ "$FEATURE_OPTION" = "Publicar Feature" ]; then
@@ -69,9 +69,9 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
         exit_code=$?
 
         if [ $exit_code -eq 0 ]; then
-            gum log --type info "Feature publicada com sucesso."
+            gum log --time timeonly --type info "Feature publicada com sucesso."
         else
-            gum log --level error "Erro ao publicar a Feature:"
+            gum log --time timeonly --level error "Erro ao publicar a Feature:"
         fi
 
     elif [ "$FEATURE_OPTION" = "Selecionar Feature" ]; then
@@ -99,7 +99,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
             gum log --level info "Atualizações da 'develop' aplicadas."
             gum confirm "Desja finalizar a Feature?" && git flow feature finish $SCOPE && git push || gum log --level warn "Feature não finalizada."
         else
-            gum log --level error "Erro ao puxar atualizações da 'develop':"
+            gum log --time timeonly --level error "Erro ao puxar atualizações da 'develop':"
         fi
     else
         clear
