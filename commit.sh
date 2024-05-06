@@ -22,7 +22,20 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
         echo "\nDigite o ID da tarefa do Jira + Módulo:"
         SCOPE=$(gum input --placeholder "Ex: ER3S-1234-atendimento")
         #todo add criação da feature (git flow feature start $SCOPE)
-        gum confirm "Deseja adicionar arquivos?" && git add . && git status || gum log --level info "Nenhum arquivo adicionado."
+        gum confirm "Deseja adicionar arquivos?" && clear && git add . && git status || gum log --level info "Nenhum arquivo adicionado."
+
+        echo "Digite o ID de sua tarefa no Jira:"
+        JIRA_TASK_ID=$(gum input --placeholder "Ex: ER3S-1234")
+
+        echo "\nDigite o comentário de sua tarefa:"
+        TASK_COMMENT=$(gum write --placeholder "Comentário")
+
+        echo "\nDigite o tempo que sua tarefa levou:"
+        TASK_TIME=$(gum input --placeholder "Ex: 1h 30m")
+
+        COMMIT=$(git commit -m "$SCOPE: #$JIRA_TASK_ID #$TASK_COMMENT #$TASK_TIME")
+
+        echo $COMMIT
     else
         clear
         gum log --level error "Erro ao atualizar a branch 'develop':"
