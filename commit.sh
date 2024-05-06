@@ -6,7 +6,7 @@
 
 gum style \
     --foreground "212" --border-foreground "212" --border double \
-    --align center --width 30 --margin "1 1" --padding "1 0.5" \
+    --align center --width 40 --margin "1 1" --padding "1 0.5" \
     'Commit GUI' 'Selecione o que deseja realizar:'
 
 COMMIT_TYPE=$(gum choose "Feature" "Hotfix" "Bugfix")
@@ -15,7 +15,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
     clear
 
 
-    echo "Selecione o processo que deseja realizar:"
+    echo "Selecione o processo que deseja realizar:\n"
     FEATURE_OPTION=$(gum choose "Iniciar Feature" "Publicar Feature" "Selecionar Feature" "Finalizar Feature")
 
     if [ "$FEATURE_OPTION" = "Iniciar Feature" ]; then
