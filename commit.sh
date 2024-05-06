@@ -31,8 +31,8 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
 
             SCOPE=$(gum input --placeholder "Ex: ER3S-1234-atendimento")
 
-            #todo add criação da feature (git flow feature start $SCOPE)
-
+            gum spin --spinner dot --title "Criando Feature..." -- sh -c `git flow feature start $SCOPE`
+            
             gum confirm "Deseja adicionar arquivos?" && clear && git add . && git status || gum log --level info "Nenhum arquivo adicionado."
 
             echo "Digite o ID de sua tarefa no Jira:"
