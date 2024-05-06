@@ -49,8 +49,8 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
 
             git commit -m "$JIRA_TASK_ID: #$TASK_COMMENT #$TASK_TIME"
 
-            gum log --level info `Arquivos commitados na feature $SCOPE com sucesso`
-            } && gum log --level war `Arquivos não commitados.`
+            gum log --level info "Arquivos commitados na feature $SCOPE com sucesso."
+            } && gum log --level warn "Arquivos não commitados."
         else
             clear
             gum log --level error "Erro ao atualizar a branch 'develop':"
