@@ -20,7 +20,7 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
     if [ "$FEATURE_OPTION" = "Iniciar Feature" ]; then
         clear
 
-        gum spin --spinner dot --title "Baixando atualizações da 'develop'..." -- sh -c 'git checkout develop && git pull'
+        gum spin --spinner dot --title "Baixando atualizações da 'develop..." -- sh -c 'git checkout develop && git pull'
         exit_code=$?
 
         if [ $exit_code -eq 0 ]; then
