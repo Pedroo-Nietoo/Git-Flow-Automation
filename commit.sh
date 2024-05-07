@@ -6,14 +6,13 @@
 
 gum style \
     --foreground "212" --border-foreground "212" --border double \
-    --align center --width 40 --margin "1 1" --padding "1 0.5" \
-    'Commit GUI' 'Selecione o que deseja realizar:'
+    --align center --width 60 --margin "1 1" --padding "1 0.5" \
+    'Commit GUI - Essentia Technologies' '' 'Selecione o que deseja realizar:'
 
 COMMIT_TYPE=$(gum choose "Feature" "Hotfix" "Bugfix" "Commitar arquivos")
 
 if [ "$COMMIT_TYPE" = "Feature" ]; then
     clear
-
 
     echo "Selecione o processo que deseja realizar:\n"
     FEATURE_OPTION=$(gum choose "Iniciar Feature" "Publicar Feature" "Selecionar Feature" "Finalizar Feature")
@@ -107,7 +106,81 @@ if [ "$COMMIT_TYPE" = "Feature" ]; then
     fi
 
 elif [ "$COMMIT_TYPE" = "Hotfix" ]; then
-    echo "Hotfix"
+    clear
+
+    echo "Selecione o processo que deseja realizar:\n"
+    FEATURE_OPTION=$(gum choose "Iniciar Hotfix" "Finalizar Hotfix")
+
+    if [ "$FEATURE_OPTION" = "Iniciar Hotfix" ]; then
+        clear
+
+        gum spin --spinner dot --title "Baixando atualizações da 'master'..." -- sh -c 'git checkout master && git pull'
+        exit_code=$?
+
+        if [ $exit_code -eq 0 ]; then
+            clear
+            gum log --level info "Atualizações da 'master' aplicadas."
+
+            echo "\nDigite o ID da tarefa do Jira + Módulo:"
+
+            SCOPE=$(gum input --placeholder "Ex: ER3S-1234-atendimento")
+
+            gum spin --spinner dot --title "Criando Hotfix..." -- sh -c `git flow hotfix start $SCOPE`
+            
+            clear
+            gum log --time timeonly --level info "Hotfix criada com sucesso!"
+            echo "\n"
+            gum style \
+                --foreground "#45e4d7" --align left --margin "0" --padding "0" "Branch atual: " && git branch | grep "*"
+
+            gum confirm "Deseja adicionar arquivos?" && {
+            gum spin --spinner dot --title "Adicionando arquivos..." -- sh -c `clear && git add . && git status`
+
+            echo "\n"
+
+            echo "Digite o ID de sua tarefa no Jira:"
+            JIRA_TASK_ID=$(gum input --placeholder "Ex: ER3S-1234")
+
+            echo "\nDigite o comentário de sua tarefa:\n"
+            TASK_COMMENT=$(gum write --placeholder "Comentário")
+
+            echo "\nDigite o tempo que sua tarefa levou:"
+            TASK_TIME=$(gum input --placeholder "Ex: 1h 30m")
+            
+            clear
+            gum spin --spinner dot --title "Commitando arquivos..." -- sh -c `git commit -m "$JIRA_TASK_ID: #$TASK_COMMENT #$TASK_TIME"`
+
+            gum log --time timeonly --level info "Arquivos commitados na feature $SCOPE com sucesso."
+            } || gum log --time timeonly --level warn "Arquivos não commitados."
+        else
+            clear
+            gum log --time timeonly --level error "Erro ao puxar atualizações da 'master':"
+        fi
+
+    
+    elif [ "$FEATURE_OPTION" = "Finalizar Feature" ]; then
+        clear
+        gum spin --spinner dot --title "Baixando atualizações da 'master'..." -- sh -c 'git pull origin master'
+        exit_code=$?
+
+        if [ $exit_code -eq 0 ]; then
+            gum log --level info "Atualizações da 'master' aplicadas."
+
+            #todo commit option
+
+            gum spin --spinner dot --title "Baixando atualizações da 'master'..." -- sh -c 'git checkout master && git pull'
+            gum spin --spinner dot --title "Baixando atualizações da 'develop'..." -- sh -c 'git checkout develop && git pull'
+            
+            
+            gum confirm "Desja finalizar o Hotfix?" && git flow feature finish $SCOPE && git push || gum log --level warn "Hotfix não finalizado."
+        else
+            gum log --time timeonly --level error "Erro ao puxar atualizações da 'master':"
+        fi
+    else
+        clear
+        gum log --level error "Erro ao puxar atualizações da 'master':"
+    fi
+
 elif [ "$COMMIT_TYPE" = "Bugfix" ]; then
     gum log --time timeonly --level error "Erro de Merge:"
     echo "JSON LALALLALALALALAL"
@@ -132,5 +205,5 @@ elif [ "$COMMIT_TYPE" = "Commitar arquivos" ]; then
     gum log --time timeonly --level info "Arquivos commitados com sucesso."
 else
     clear
-    gum confirm "Deseja cancelar a operação" && gum log --level info "Commit cancelado." || gum log --level info "Operação continuada."
+    gum confirm "Deseja cancelar a operação" && gum log --level info "Operação cancelado." || gum log --level info "Operação continuada."
 fi
