@@ -9,7 +9,7 @@ gum style \
     --align center --width 40 --margin "1 1" --padding "1 0.5" \
     'Commit GUI' 'Selecione o que deseja realizar:'
 
-COMMIT_TYPE=$(gum choose "Feature" "Hotfix" "Bugfix")
+COMMIT_TYPE=$(gum choose "Feature" "Hotfix" "Bugfix" "Commitar arquivos")
 
 if [ "$COMMIT_TYPE" = "Feature" ]; then
     clear
@@ -111,6 +111,25 @@ elif [ "$COMMIT_TYPE" = "Hotfix" ]; then
 elif [ "$COMMIT_TYPE" = "Bugfix" ]; then
     gum log --time timeonly --level error "Erro de Merge:"
     echo "JSON LALALLALALALALAL"
+elif [ "$COMMIT_TYPE" = "Commitar arquivos" ]; then
+    clear
+    gum spin --spinner dot --title "Adicionando arquivos..." -- sh -c `clear && git add . && git status`
+
+    echo "\n"
+
+    echo "Digite o ID de sua tarefa no Jira:"
+    JIRA_TASK_ID=$(gum input --placeholder "Ex: ER3S-1234")
+
+    echo "\nDigite o comentário de sua tarefa:\n"
+    TASK_COMMENT=$(gum write --placeholder "Comentário")
+
+    echo "\nDigite o tempo que sua tarefa levou:"
+    TASK_TIME=$(gum input --placeholder "Ex: 1h 30m")
+        
+    clear
+    gum spin --spinner dot --title "Commitando arquivos..." -- sh -c `git commit -m "$JIRA_TASK_ID: #$TASK_COMMENT #$TASK_TIME"`
+
+    gum log --time timeonly --level info "Arquivos commitados com sucesso."
 else
     clear
     gum confirm "Deseja cancelar a operação" && gum log --level info "Commit cancelado." || gum log --level info "Operação continuada."
