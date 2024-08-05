@@ -1,6 +1,6 @@
 #!/bin/sh
 # ---------------------------------------------- #
-# Easy Health Git Flow GUI                       #
+# Git Flow GUI                                   #
 # Author: Pedro Henrique Nieto da Silva          #
 # ---------------------------------------------- #
 
